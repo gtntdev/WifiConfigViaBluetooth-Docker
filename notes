@@ -1,0 +1,46 @@
+WIFI
+wpa_supplicant:
+https://wiki.archlinux.org/index.php/wpa_supplicant
+locales -> no additional needed
+----------WORKING-----------------------
+docker run \
+-ti --privileged --net=host \
+-v /home/pi/dev_docker/debian_base/service:/etc/systemd/system/dbus-org.bluez.service:ro \
+-v /home/pi/dev_docker/debian_base/start.sh:/start.sh \
+--rm \
+gtntdev/debian-wifioverbt:1.0 /bin/bash
+----------------------------------------
+-----------WORKING WITH CMDs------------
+docker run \
+-d --rm --privileged --net=host \
+-v /home/pi/dev_docker/debian_base/service:/etc/systemd/system/dbus-org.bluez.service:ro \
+-v /home/pi/dev_docker/debian_base/start.sh:/start.sh \
+gtntdev/debian-wifioverbt:1.0
+----------------------------------------
+---------------------------VERY IMPORTANT----------------
+#STOP ALL SERVICES ON HOST USING BLUETOOTH OR WIFI
+/etc/init.d/dbus start
+/usr/sbin/bluetoothd -C &   -> will create the /var/run/sdp
+chmod 777 /var/run/sdp
+sdptool add SP
+hciconfig hci0 piscan
+#mount "import wpa_supplicant.conf" -> COPY in Dockerfile
+wpa_supplicant -B -c/etc/wpa_supplicant/wpa_supplicant.conf -iwlan0 -Dnl80211,wext
+---------------------------------------------------------
+---------------------------------------------------------
+Build command: docker build -t gtntdev/debian-wifioverbt:1.0 .
+---------------------------------------------------------
+-----------------generell docker-------------------
+run vs cmd vs env:
+https://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+---------------------------------------------------
+Dockerfiletutorial:
+https://takacsmark.com/dockerfile-tutorial-by-example-dockerfile-best-practices-2018/
+
+------------------hint for reading outher procceses stdout(#1)-not wokring----------------
+strace -e trace=write -s1000 -fp 141 2>&1 \
+| grep --line-buffered -o '".\+[^"]"' \
+| grep --line-buffered -o '[^"]\+[^"]' \
+| while read -r line; do
+  printf "%b" $line;
+done
