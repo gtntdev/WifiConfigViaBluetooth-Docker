@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -8,22 +9,40 @@ import subprocess
 import time
 #sys.path.append('/home/pi/.local/lib/python2.7/site-packages')
 from wifi import Cell, Scheme
+import json
 
-#wpa_supplicant_conf = "/home/pi/Wifi\ Config\ via\ bluetooth/python_server/wpa.conf"
 wpa_supplicant_conf = "/etc/wpa_supplicant/wpa_supplicant.conf"
-sudo_mode = "sudo "
 
+class Network:
+    def __init__(self, ssid):
+        self.ssid = ssid
+    def dump(self):
+        return {"ssid": self.ssid}
 
-def wifi_connect(ssid, psk):
+def wifi_scan():
+    Cells = Cell.all('wlan0')
+    wifi_info = ''
+    CellsList = list(Cells)
+    for current in range(len(CellsList)):
+        wifi_info +=  CellsList[current].ssid + "\n"
+        network_list = wifi_info.splitlines()
+    #print (network_list)
+    net = []
+    for i in network_list:
+        network = Network(i)
+        net.append(network)
+    #print(net)
+    json_string = json.dumps([o.dump() for o in net])
+    print ("Scanned wifis: " + json_string)
+    return json_string
+
+def wifi_set(ssid, psk):
     # write wifi config to file
     f = open('wpa.conf', 'w')
     f.write('country=DE\n')
     f.write('ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n')
     f.write('update_config=1\n')
     f.write('\n')
-#    f.write('network={\n')
-#    f.write('    ssid="' + ssid + '"\n')
-#    f.write('    psk="' + psk + '"\n')
     f.write('\n')
     f.close()
 
@@ -58,57 +77,31 @@ def wifi_connect(ssid, psk):
 
     return ip_address
 
-
-def ssid_discovered():
-    Cells = Cell.all('wlan0')
-
-    wifi_info = 'Found ssid : \n'
-
-    CellsList = list(Cells)
-    for current in range(len(CellsList)):
-        wifi_info +=  CellsList[current].ssid + "\n"
-
-
-    wifi_info+="~"
-
-    print (wifi_info)
-    return wifi_info
-
-
 def handle_client(client_sock) :
-    # get ssid
-    client_sock.send(ssid_discovered())
-    print ("Waiting for SSID...")
-
-
-    ssid = client_sock.recv(1024).decode('utf-8')
-    if ssid == '' :
+    received_str = client_sock.recv(1024).decode('utf-8')
+    if received_str == '' :
         return
 
-    print ("ssid received")
-    print (ssid)
+    print ("received text")
+    rec_str = json.loads(received_str)
+    print (rec_str)
+    print (rec_str["command"])
 
-    # get psk
-    client_sock.send("waiting-psk~")
-    print ("Waiting for PSK...")
-
-
-    psk = client_sock.recv(1024).decode('utf-8')
-    if psk == '' :
+    if rec_str["command"] == "WIFI_SCAN" :
+        result = wifi_scan()
+        client_sock.send(result + "|")
         return
 
-    print ("psk received")
+    if rec_str["command"] == "WIFI_SET" :
+        ssid = rec_str["ssid"]
+        password = rec_str["password"]
+        print ("received ssid: "+ ssid + ", password: " + password)
+        result = wifi_set(ssid, password)
+        client_sock.send(result.decode('utf-8') + "|")
+        return
 
-    print (psk)
-
-    ip_address = wifi_connect(ssid, psk)
-
-    print ("ip address: " + ip_address.decode('utf-8'))
-
-    client_sock.send("ip-addres:" + ip_address.decode('utf-8') + "~")
 
     return
-
 
 try:
     while True:
@@ -137,7 +130,7 @@ try:
         server_sock.close()
 
         # finished config
-        print ('Finished configuration\n')
+        print ('Socket closed\n')
 
 
 except (KeyboardInterrupt, SystemExit):
