@@ -1,4 +1,5 @@
 WIFI
+//these are just some unordered private hints to get the container working
 wpa_supplicant:
 https://wiki.archlinux.org/index.php/wpa_supplicant
 locales -> no additional needed
