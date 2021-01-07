@@ -1,6 +1,7 @@
 version: '3.3'
 services:
     debian-wifioverbt:
+        restart: unless-stopped
         privileged: true
         network_mode: host
         volumes:
