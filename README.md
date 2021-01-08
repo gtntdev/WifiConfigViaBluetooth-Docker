@@ -2,6 +2,8 @@ This project aims to provide functionality to configure (scan, connect and
 in the future more options will be added likely) the Wifi connection of a 
 Raspberry Pi over Bluetooth remotely with an Android app.
 
+Use it in combination with [this](https://github.com/gtntdev/WifiConfigViaBluetooth-Android) Android Client.
+
 It's based on this project: https://github.com/brendan-myers/rpi3-wifi-conf
 but further development brought it to a whole new level: I migrated the server
 script into a docker container which is based on a debian image.
