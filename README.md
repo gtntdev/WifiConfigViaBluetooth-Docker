@@ -9,6 +9,7 @@ Because of the portability of docker this docker build guide should be easily
 applicable to all unix-like operating systems (only small mods needed).
 
 Please have a look at the Wiki page to get started.
+https://github.com/gtntdev/-WifiConfigViaBluetooth-Docker/wiki
 
 As needed resources (Bluetooth/Wifi) depend on the specific host, changes to the 
 source code could be necessary when deployed on other machines then the RPi.
