@@ -50,3 +50,5 @@ Wifi Network Class:
 	> Password
 	> MAC Address (primary key in db)
 ```
+
+Many thanks to [Brendan Myers](https://github.com/brendan-myers) for your contributions!
