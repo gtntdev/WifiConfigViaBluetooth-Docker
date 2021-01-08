@@ -16,3 +16,35 @@ source code could be necessary when deployed on other machines then the RPi.
 
 Please make sure your are connected to the host over ethernet since existing
 Wifi connection will fail during setup process.
+
+How it works:
+```
+                           java                                     Network                                       python
+                                                               -----------------
+Command object --> Json Object --> Json String --> Bytes    -->       Bytes     -->      Bytes --> Json String --> Json Object --> Command Object
+...                                                                                                                                           ...
+...                                                                                                                                           ... 
+Command object <-- Json Object <-- Json String <-- Bytes    <--       Bytes     <--      Bytes <-- Json String <-- Json Object <-- Command Object
+                                                               -----------------
+
+----Commands----
+Client:
+	> is Wifi connected :           'boolean'
+        App: [button (red = not connected, yellow = querrying device for status, 
+		green = connected, display information, grey = not bt device selected)]
+	> get wifi connection :         'Wifi Object'
+	App: 
+	> scan for available networks : 'List of wifi object'
+	> set wifi connection:          'boolean' (success?)
+Server:
+	> later: network state changed
+
+
+[TODO]
+- CRUD Operations for Wifi Networks stored persistent -> Wifi Network Class -> DB Connection Manager
+Wifi Network Class:
+    > Static List of Wifi
+	> SSID (network Name)
+	> Password
+	> MAC Address (primary key in db)
+```
