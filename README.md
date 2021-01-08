@@ -10,8 +10,8 @@ applicable to all unix-like operating systems (only small mods needed).
 
 Please have a look at the Wiki page to get started.
 
-As needed resources (Bluetooth/Wifi) depend on the specific host changes to the 
-source code could be nessesarry when deployed on other machines then the RPi.
+As needed resources (Bluetooth/Wifi) depend on the specific host, changes to the 
+source code could be necessary when deployed on other machines then the RPi.
 
 Please make sure your are connected to the host over ethernet since existing
 Wifi connection will fail during setup process.
