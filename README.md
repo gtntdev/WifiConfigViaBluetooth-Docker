@@ -31,11 +31,11 @@ Command object <-- Json Object <-- Json String <-- Bytes    <--       Bytes     
 Client:
 	> is Wifi connected :           'boolean'
         App: [button (red = not connected, yellow = querrying device for status, 
-		green = connected, display information, grey = not bt device selected)]
-	> get wifi connection :         'Wifi Object'
+		green = connected, display information, grey = not bt device selected)] (not implemented yet)
+	> get wifi connection :         'Wifi Object' (not implemented yet)
 	App: 
-	> scan for available networks : 'List of wifi object'
-	> set wifi connection:          'boolean' (success?)
+	> scan for available networks : 'List of wifi object' (already implemented)
+	> set wifi connection:          'boolean' (success?) (already implemented)
 Server:
 	> later: network state changed
 
