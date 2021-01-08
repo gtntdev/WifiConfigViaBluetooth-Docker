@@ -6,7 +6,7 @@ It's based on this project: https://github.com/brendan-myers/rpi3-wifi-conf
 but further development brought it to a whole new level: I migrated the server
 script into a docker container which is based on a debian image.
 Because of the portability of docker this docker build guide should be easily
-appliable to all unix-like operating systems (only small mods needed).
+applicable to all unix-like operating systems (only small mods needed).
 
 Please have a look at the Wiki page to get started.
 
