@@ -3,6 +3,10 @@ set prompt "#"
 spawn bluetoothctl
 
 expect -re $prompt
+send "system-alias \'WifioverBT\'\r"
+sleep 2
+
+expect -re $prompt
 send "default-agent\r"
 sleep 2
 
