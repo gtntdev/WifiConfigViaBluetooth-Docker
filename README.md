@@ -4,6 +4,10 @@ Raspberry Pi over Bluetooth remotely with an Android app.
 
 Use it in combination with [this](https://github.com/gtntdev/WifiConfigViaBluetooth-Android) Android Client.
 
+Important: note that obviously any person knowing the "protocol" can connect the device to a different network!
+As bluetooth traffic itself uses symmetric encryption mechanism nowadays next step will be to add a "secret"
+to every message hardcoded in both the server and client.
+
 It's based on this project: https://github.com/brendan-myers/rpi3-wifi-conf
 but further development brought it to a whole new level: I migrated the server
 script into a docker container which is based on a debian image.
