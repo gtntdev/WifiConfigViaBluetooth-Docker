@@ -5,6 +5,6 @@ services:
         privileged: true
         network_mode: host
         volumes:
-            - '/home/pi/dev_docker/debian_base/service:/etc/systemd/system/dbus-org.bluez.service:ro'
-            - '/home/pi/dev_docker/debian_base/start.sh:/start.sh'
+            - './service:/etc/systemd/system/dbus-org.bluez.service:ro'
+            - './start.sh:/start.sh'
         image: 'gtntdev/debian-wifioverbt:1.0'
