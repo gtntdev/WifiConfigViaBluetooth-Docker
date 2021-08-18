@@ -90,7 +90,8 @@ def handle_client(client_sock) :
     if rec_str["command"] == "WIFI_SCAN" :
         result = wifi_scan()
         client_sock.send(result + "|")
-        return
+      # return
+# The previous "return" may cause an early stop of this function
 
     if rec_str["command"] == "WIFI_SET" :
         ssid = rec_str["ssid"]

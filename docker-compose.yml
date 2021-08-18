@@ -3,6 +3,8 @@ services:
     debian-wifioverbt:
         restart: unless-stopped
         privileged: true
+        device:
+            - "/dev/wlan0:/dev/wlan0"
         network_mode: host
         volumes:
             - './service:/etc/systemd/system/dbus-org.bluez.service:ro'
